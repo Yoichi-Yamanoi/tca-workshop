@@ -10,9 +10,9 @@ public struct RepositoryDetail {
   @ObservableState
   public struct State: Equatable {
     let repository: Repository
-
+    
     var isWebViewLoading = true
-
+    
     public init(repository: Repository) {
       self.repository = repository
     }
@@ -21,9 +21,9 @@ public struct RepositoryDetail {
   public enum Action: BindableAction {
     case binding(BindingAction<State>)
   }
-
+  
   public init() {}
-
+  
   public var body: some ReducerOf<Self> {
     BindingReducer()
     Reduce { state, action in
@@ -37,11 +37,11 @@ public struct RepositoryDetail {
 
 public struct RepositoryDetailView: View {
   @Bindable var store: StoreOf<RepositoryDetail>
-
+  
   public init(store: StoreOf<RepositoryDetail>) {
     self.store = store
   }
-
+  
   public var body: some View {
     SimpleWebView(
       url: store.repository.htmlUrl,
@@ -59,24 +59,24 @@ public struct RepositoryDetailView: View {
 struct SimpleWebView: UIViewRepresentable {
   let url: URL
   @Binding var isLoading: Bool
-
+  
   private let webView = WKWebView()
-
+  
   func makeUIView(context: Context) -> some UIView {
     webView.load(.init(url: url))
     webView.navigationDelegate = context.coordinator
     return webView
   }
-
+  
   func updateUIView(_ uiView: UIViewType, context: Context) {}
-
+  
   func makeCoordinator() -> Coordinator {
     Coordinator(self)
   }
-
+  
   class Coordinator: NSObject, WKNavigationDelegate {
     let parent: SimpleWebView
-
+    
     init(_ parent: SimpleWebView) {
       self.parent = parent
     }
@@ -84,7 +84,7 @@ struct SimpleWebView: UIViewRepresentable {
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
       parent.isLoading = true
     }
-
+    
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
       parent.isLoading = false
     }

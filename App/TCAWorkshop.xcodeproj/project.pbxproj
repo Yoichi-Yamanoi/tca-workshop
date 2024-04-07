@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2172EC832B9D838E00EEA33A /* RepositoryListFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 2172EC822B9D838E00EEA33A /* RepositoryListFeature */; };
 		C7A7DB6D2AAD4C8D0029DCBA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7A7DB682AAD4C8D0029DCBA /* Assets.xcassets */; };
 		C7A7DB6E2AAD4C8D0029DCBA /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7A7DB6A2AAD4C8D0029DCBA /* Preview Assets.xcassets */; };
 		C7A7DB6F2AAD4C8D0029DCBA /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A7DB6C2AAD4C8D0029DCBA /* App.swift */; };
@@ -27,6 +28,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2172EC832B9D838E00EEA33A /* RepositoryListFeature in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,6 +97,7 @@
 			);
 			name = TCAWorkshop;
 			packageProductDependencies = (
+				2172EC822B9D838E00EEA33A /* RepositoryListFeature */,
 			);
 			productName = TCAWorkshop;
 			productReference = C76268EC2AAD4420008D03E7 /* TCAWorkshop.app */;
@@ -108,7 +111,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1500;
-				LastUpgradeCheck = 1500;
+				LastUpgradeCheck = 1510;
 				TargetAttributes = {
 					C76268EB2AAD4420008D03E7 = {
 						CreatedOnToolsVersion = 15.0;
@@ -191,6 +194,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DOCC_HOSTING_BASE_PATH = "";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -210,7 +214,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				GITHUB_PERSONAL_ACCESS_TOKEN = "";
+				GITHUB_PERSONAL_ACCESS_TOKEN = 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;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -254,6 +258,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DOCC_HOSTING_BASE_PATH = "";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -267,7 +272,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				GITHUB_PERSONAL_ACCESS_TOKEN = "";
+				GITHUB_PERSONAL_ACCESS_TOKEN = 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;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -283,8 +288,9 @@
 				CODE_SIGN_ENTITLEMENTS = iOS/iOS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"iOS/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 5W2L335Y38;
 				DOCC_HOSTING_BASE_PATH = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -304,7 +310,7 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.5;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.kalupas226.TCAWorkshop;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yyamanoi.TCAWorkshop;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
@@ -322,8 +328,9 @@
 				CODE_SIGN_ENTITLEMENTS = iOS/iOS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"iOS/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 5W2L335Y38;
 				DOCC_HOSTING_BASE_PATH = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -343,7 +350,7 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.5;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.kalupas226.TCAWorkshop;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yyamanoi.TCAWorkshop;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
@@ -375,6 +382,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		2172EC822B9D838E00EEA33A /* RepositoryListFeature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = RepositoryListFeature;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = C76268E42AAD4420008D03E7 /* Project object */;
 }
