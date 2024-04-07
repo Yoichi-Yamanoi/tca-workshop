@@ -4,7 +4,9 @@ import Entity
 import Foundation
 import GitHubAPIClient
 import IdentifiedCollections
+import RepositoryDetailFeature
 import SwiftUI
+import SwiftUINavigationCore
 
 @Reducer
 public struct RepositoryList {
@@ -13,28 +15,30 @@ public struct RepositoryList {
     var repositoryRows: IdentifiedArrayOf<RepositoryRow.State> = []
     var isLoading: Bool = false
     var query: String = ""
-    
+    @Presents var destination: Destination.State?
+
     public init() {}
   }
-  
+
   public enum Action: BindableAction {
     case onAppear
     case searchRepositoriesResponse(Result<[Repository], Error>)
     case repositoryRows(IdentifiedActionOf<RepositoryRow>)
     case queryChangeDebounced
     case binding(BindingAction<State>)
+    case destination(PresentationAction<Destination.Action>)
   }
-  
-  
+
+
   public init() {}
-  
+
   private enum CancelID {
     case response
   }
-  
+
   @Dependency(\.gitHubAPIClient) var gitHubAPIClient
   @Dependency(\.mainQueue) var mainQueue
-  
+
   public var body: some ReducerOf<Self> {
     BindingReducer()
     Reduce { state, action in
@@ -42,9 +46,10 @@ public struct RepositoryList {
       case .onAppear:
         state.isLoading = true
         return searchRepositories(by: "composable")
+
       case let .searchRepositoriesResponse(result):
         state.isLoading = false
-        
+
         switch result {
         case let .success(response):
           state.repositoryRows = .init(
@@ -54,11 +59,23 @@ public struct RepositoryList {
           )
           return .none
         case .failure:
-          // TODO: Handling error
+          state.destination = .alert(.networkError)
           return .none
         }
+
+      case let .repositoryRows(.element(id, .delegate(.rowTapped))):
+        guard let repository = state.repositoryRows[id: id]?.repository else {
+          return .none
+        }
+
+        state.destination = .repositoryDetail(
+          .init(repository: repository)
+        )
+        return .none
+
       case .repositoryRows:
         return .none
+
       case .binding(\.query):
         return .run { send in
           await send(.queryChangeDebounced)
@@ -68,25 +85,26 @@ public struct RepositoryList {
           for: .seconds(0.3),
           scheduler: mainQueue
         )
+
       case .queryChangeDebounced:
         guard !state.query.isEmpty else {
           return .none
         }
-        
-        
         state.isLoading = true
-        
-        
         return searchRepositories(by: state.query)
+
       case .binding:
+        return .none
+      case .destination:
         return .none
       }
     }
     .forEach(\.repositoryRows, action: \.repositoryRows) {
       RepositoryRow()
     }
+    .ifLet(\.$destination, action: \.destination)
   }
-  
+
   func searchRepositories(by query: String) -> Effect<Action> {
     .run { send in
       await send(
@@ -98,22 +116,33 @@ public struct RepositoryList {
       )
     }
   }
-  
-  
-  private let jsonDecoder: JSONDecoder = {
-    let decoder = JSONDecoder()
-    decoder.keyDecodingStrategy = .convertFromSnakeCase
-    return decoder
-  }()
+}
+
+extension AlertState where Action == RepositoryList.Destination.Alert {
+  static let networkError = Self {
+    TextState("Network Error")
+  } message: {
+    TextState("Failed to fetch data.")
+  }
+}
+
+extension RepositoryList {
+  @Reducer(state: .equatable)
+  public enum Destination {
+    case alert(AlertState<Alert>)
+    case repositoryDetail(RepositoryDetail)
+
+    public enum Alert: Equatable {}
+  }
 }
 
 public struct RepositoryListView: View {
   @Bindable var store: StoreOf<RepositoryList>
-  
+
   public init(store: StoreOf<RepositoryList>) {
     self.store = store
   }
-  
+
   public var body: some View {
     NavigationStack {
       Group {
@@ -140,12 +169,18 @@ public struct RepositoryListView: View {
         placement: .navigationBarDrawer,
         prompt: "Input query"
       )
+      .alert(
+        $store.scope(
+          state: \.destination?.alert,
+          action: \.destination.alert
+        )
+      )
     }
   }
 }
 
 
-#Preview {
+#Preview("API Succeeded") {
   RepositoryListView(
     store: .init(
       initialState: RepositoryList.State()
@@ -155,6 +190,24 @@ public struct RepositoryListView: View {
       $0.gitHubAPIClient.searchRepositories = { _ in
         try await Task.sleep(for: .seconds(0.3))
         return (1...20).map { .mock(id: $0) }
+      }
+    }
+  )
+}
+
+#Preview("API Failed") {
+  enum PreviewError: Error {
+    case fetchFailed
+    case repositoryDetail(RepositoryDetail)
+  }
+  return RepositoryListView(
+    store: .init(
+      initialState: RepositoryList.State()
+    ) {
+      RepositoryList()
+    } withDependencies: {
+      $0.gitHubAPIClient.searchRepositories = { _ in
+        throw PreviewError.fetchFailed
       }
     }
   )

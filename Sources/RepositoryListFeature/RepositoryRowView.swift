@@ -13,12 +13,18 @@ public struct RepositoryRow {
   
   public enum Action {
     case rowTapped
+    case delegate(Delegate)
+    public enum Delegate {
+      case rowTapped
+    }
   }
   
   public var body: some ReducerOf<Self> {
     Reduce { state, action in
       switch action {
       case .rowTapped:
+        return .send(.delegate(.rowTapped))
+      case .delegate:
         return .none
       }
     }
